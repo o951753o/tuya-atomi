@@ -1,7 +1,7 @@
 {
-  "domain": "tuya",
-  "name": "Tuya",
-  "documentation": "https://www.home-assistant.io/integrations/tuya",
+  "domain": "tuya_atomi",
+  "name": "Tuya Atomi",
+  "documentation": "https://github.com/o951753o/tuya_atomi/",
   "requirements": ["tuya-iot-py-sdk==0.6.6"],
   "dependencies": ["ffmpeg"],
   "codeowners": ["@Tuya", "@zlinoliver", "@frenck"],
@@ -22,4 +22,5 @@
   ],
   "integration_type": "hub",
   "loggers": ["tuya_iot"]
+  "version": "2023.01.05"
 }

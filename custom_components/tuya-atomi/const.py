@@ -28,7 +28,7 @@ from homeassistant.const import (
     UnitOfVolume,
 )
 
-DOMAIN = "tuya"
+DOMAIN = "tuya_atomi"
 LOGGER = logging.getLogger(__package__)
 
 CONF_AUTH_TYPE = "auth_type"
