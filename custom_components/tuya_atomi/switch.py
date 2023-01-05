@@ -24,6 +24,46 @@ from .const import DOMAIN, TUYA_DISCOVERY_NEW, DPCode
 # default instruction set of each category end up being a Switch.
 # https://developer.tuya.com/en/docs/iot/standarddescription?id=K9i5ql6waswzq
 SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
+    # Electric Blanket
+    # https://developer.tuya.com/en/docs/iot/categorydr?id=Kaiuz22dyc66p
+    "dr": (
+        SwitchEntityDescription(
+            key=DPCode.SWITCH,
+            name="Power (default)",
+            icon="mdi:power",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+        SwitchEntityDescription(
+            key=DPCode.SWITCH_1,
+            name="Power",
+            icon="mdi:power",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+        SwitchEntityDescription(
+            key=DPCode.SWITCH_2,
+            name="Power (side)",
+            icon="mdi:power",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+        SwitchEntityDescription(
+            key=DPCode.PREHEAT,
+            name="Preheat (default)",
+            icon="mdi:heating-coil",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+        SwitchEntityDescription(
+            key=DPCode.PREHEAT_1,
+            name="Preheat",
+            icon="mdi:heating-coil",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+        SwitchEntityDescription(
+            key=DPCode.PREHEAT_2,
+            name="Preheat (side)",
+            icon="mdi:heating-coil",
+            device_class=SwitchDeviceClass.SWITCH,
+        ),
+    ),
     # Smart Kettle
     # https://developer.tuya.com/en/docs/iot/fbh?id=K9gf484m21yq7
     "bh": (
