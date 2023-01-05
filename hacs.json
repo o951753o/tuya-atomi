@@ -1,0 +1,5 @@
+{
+  "name": "Tuya Atomi",
+  "domains": ["tuya_atomi"],
+  "render_readme": false,
+}
