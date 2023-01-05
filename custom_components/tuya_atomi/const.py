@@ -215,6 +215,8 @@ class DPCode(StrEnum):
     LED_TYPE_2 = "led_type_2"
     LED_TYPE_3 = "led_type_3"
     LEVEL = "level"
+    LEVEL_1 = "level_1"
+    LEVEL_2 = "level_2"
     LEVEL_CURRENT = "level_current"
     LIGHT = "light"  # Light
     LIGHT_MODE = "light_mode"
@@ -253,6 +255,9 @@ class DPCode(StrEnum):
     POWDER_SET = "powder_set"  # Powder
     POWER = "power"
     POWER_GO = "power_go"
+    PREHEAT = "preheat"
+    PREHEAT_1 = "preheat_1"
+    PREHEAT_2 = "preheat_2"
     PRESENCE_STATE = "presence_state"
     PRESSURE_STATE = "pressure_state"
     PRESSURE_VALUE = "pressure_value"
@@ -326,9 +331,9 @@ class DPCode(StrEnum):
     TEMP_BOILING_F = "temp_boiling_f"
     TEMP_CONTROLLER = "temp_controller"
     TEMP_CURRENT = "temp_current"  # Current temperature in °C
-    TEMP_CURRENT_F = "temp_current_f"  # Current temperature in °F
+    TEMP_CURRENT_F = "temp_current"  # Current temperature in °F
     TEMP_SET = "temp_set"  # Set the temperature in °C
-    TEMP_SET_F = "temp_set_f"  # Set the temperature in °F
+    TEMP_SET_F = "temp_set"  # Set the temperature in °F
     TEMP_UNIT_CONVERT = "temp_unit_convert"  # Temperature unit switching
     TEMP_VALUE = "temp_value"  # Color temperature
     TEMP_VALUE_V2 = "temp_value_v2"
@@ -342,7 +347,7 @@ class DPCode(StrEnum):
     TOTAL_PM = "total_pm"
     TVOC = "tvoc"
     UPPER_TEMP = "upper_temp"
-    UPPER_TEMP_F = "upper_temp_f"
+    UPPER_TEMP_F = "upper_temp"
     UV = "uv"  # UV sterilization
     VA_BATTERY = "va_battery"
     VA_HUMIDITY = "va_humidity"
