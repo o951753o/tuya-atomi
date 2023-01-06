@@ -500,6 +500,12 @@ SENSORS: dict[str, tuple[TuyaSensorEntityDescription, ...]] = {
     # https://developer.tuya.com/en/docs/iot/categoryqn?id=Kaiuz18kih0sm
     "qn": (
         TuyaSensorEntityDescription(
+            key=DPCode.TEMP_CURRENT,
+            name="Temperature",
+            device_class=SensorDeviceClass.TEMPERATURE,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        TuyaSensorEntityDescription(
             key=DPCode.WORK_POWER,
             name="Power",
             device_class=SensorDeviceClass.POWER,
