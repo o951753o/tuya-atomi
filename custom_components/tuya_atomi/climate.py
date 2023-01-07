@@ -28,7 +28,7 @@ from .base import IntegerTypeData, TuyaEntity
 from .const import DOMAIN, TUYA_DISCOVERY_NEW, DPCode, DPType
 
 TUYA_HVAC_TO_HA = {
-    "auto": HVACMode.HEAT,
+    "auto": HVACMode.HEAT_COOL,
     "cold": HVACMode.COOL,
     "freeze": HVACMode.COOL,
     "heat": HVACMode.HEAT,

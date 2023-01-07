@@ -35,6 +35,7 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
         ),
         SwitchEntityDescription(
             key=DPCode.SWITCH_1,
+            name="Power",
             icon="mdi:power",
             device_class=SwitchDeviceClass.SWITCH,
         ),
@@ -75,6 +76,20 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             key=DPCode.WARM,
             name="Heat Preservation",
             entity_category=EntityCategory.CONFIG,
+        ),
+    ),
+    # EasyBaby
+    # Undocumented, might have a wider use
+    "cn": (
+        SwitchEntityDescription(
+            key=DPCode.DISINFECTION,
+            name="Disinfection",
+            icon="mdi:bacteria",
+        ),
+        SwitchEntityDescription(
+            key=DPCode.WATER,
+            name="Water",
+            icon="mdi:water",
         ),
     ),
     # Smart Pet Feeder
