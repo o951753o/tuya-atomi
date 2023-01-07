@@ -1,5 +1,5 @@
 {
-  "domain": "tuya",
+  "domain": "tuya_atomi",
   "name": "Tuya Atomi",
   "documentation": "https://github.com/o951753o/tuya_atomi/",
   "requirements": ["tuya-iot-py-sdk==0.6.6"],
@@ -20,6 +20,6 @@
     { "macaddress": "D4A651*" },
     { "macaddress": "D81F12*" }
   ],
-  "version": "2023.01.05",
+  "version": "2023.01.07",
   "loggers": ["tuya_iot"]
 }
