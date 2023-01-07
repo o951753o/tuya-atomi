@@ -547,7 +547,7 @@ UNITS = (
     ),
     UnitOfMeasurement(
         unit=UnitOfTemperature.FAHRENHEIT,
-        aliases={"°f", "f", "fahrenheit", "°F"},
+        aliases={"°f", "f", "fahrenheit"},
         device_classes={SensorDeviceClass.TEMPERATURE},
     ),
     UnitOfMeasurement(
