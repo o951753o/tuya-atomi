@@ -504,7 +504,6 @@ SENSORS: dict[str, tuple[TuyaSensorEntityDescription, ...]] = {
             key=DPCode.TEMP_CURRENT,
             name="Temperature",
             icon="mdi:thermometer",
-            native_unit_of_measurement=UnitOfTemperature,
             device_class=SensorDeviceClass.TEMPERATURE,
             state_class=SensorStateClass.MEASUREMENT,
         ),
