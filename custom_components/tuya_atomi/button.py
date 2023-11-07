@@ -1,11 +1,11 @@
-"""Support for Tuya buttons."""
+"""Support for Tuya cameras."""
 from __future__ import annotations
 
 from tuya_iot import TuyaDevice, TuyaDeviceManager
 
-from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
+from homeassistant.components import ffmpeg
+from homeassistant.components.camera import Camera as CameraEntity, CameraEntityFeature
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -14,75 +14,29 @@ from . import HomeAssistantTuyaData
 from .base import TuyaEntity
 from .const import DOMAIN, TUYA_DISCOVERY_NEW, DPCode
 
-# All descriptions can be found here.
+# All descriptions can be found here:
 # https://developer.tuya.com/en/docs/iot/standarddescription?id=K9i5ql6waswzq
-BUTTONS: dict[str, tuple[ButtonEntityDescription, ...]] = {
-    # Robot Vacuum
-    # https://developer.tuya.com/en/docs/iot/fsd?id=K9gf487ck1tlo
-    "sd": (
-        ButtonEntityDescription(
-            key=DPCode.RESET_DUSTER_CLOTH,
-            translation_key="reset_duster_cloth",
-            icon="mdi:restart",
-            entity_category=EntityCategory.CONFIG,
-        ),
-        ButtonEntityDescription(
-            key=DPCode.RESET_EDGE_BRUSH,
-            translation_key="reset_edge_brush",
-            icon="mdi:restart",
-            entity_category=EntityCategory.CONFIG,
-        ),
-        ButtonEntityDescription(
-            key=DPCode.RESET_FILTER,
-            translation_key="reset_filter",
-            icon="mdi:air-filter",
-            entity_category=EntityCategory.CONFIG,
-        ),
-        ButtonEntityDescription(
-            key=DPCode.RESET_MAP,
-            translation_key="reset_map",
-            icon="mdi:map-marker-remove",
-            entity_category=EntityCategory.CONFIG,
-        ),
-        ButtonEntityDescription(
-            key=DPCode.RESET_ROLL_BRUSH,
-            translation_key="reset_roll_brush",
-            icon="mdi:restart",
-            entity_category=EntityCategory.CONFIG,
-        ),
-    ),
-    # Wake Up Light II
-    # Not documented
-    "hxd": (
-        ButtonEntityDescription(
-            key=DPCode.SWITCH_USB6,
-            translation_key="snooze",
-            icon="mdi:sleep",
-        ),
-    ),
-}
+CAMERAS: tuple[str, ...] = (
+    # Smart Camera (including doorbells)
+    # https://developer.tuya.com/en/docs/iot/categorysgbj?id=Kaiuz37tlpbnu
+    "sp",
+)
 
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up Tuya buttons dynamically through Tuya discovery."""
+    """Set up Tuya cameras dynamically through Tuya discovery."""
     hass_data: HomeAssistantTuyaData = hass.data[DOMAIN][entry.entry_id]
 
     @callback
     def async_discover_device(device_ids: list[str]) -> None:
-        """Discover and add a discovered Tuya buttons."""
-        entities: list[TuyaButtonEntity] = []
+        """Discover and add a discovered Tuya camera."""
+        entities: list[TuyaCameraEntity] = []
         for device_id in device_ids:
             device = hass_data.device_manager.device_map[device_id]
-            if descriptions := BUTTONS.get(device.category):
-                for description in descriptions:
-                    if description.key in device.status:
-                        entities.append(
-                            TuyaButtonEntity(
-                                device, hass_data.device_manager, description
-                            )
-                        )
+            if device.category in CAMERAS:
+                entities.append(TuyaCameraEntity(device, hass_data.device_manager))
 
         async_add_entities(entities)
 
@@ -93,20 +47,59 @@ async def async_setup_entry(
     )
 
 
-class TuyaButtonEntity(TuyaEntity, ButtonEntity):
-    """Tuya Button Device."""
+class TuyaCameraEntity(TuyaEntity, CameraEntity):
+    """Tuya Camera Entity."""
+
+    _attr_supported_features = CameraEntityFeature.STREAM
+    _attr_brand = "Tuya"
+    _attr_name = None
 
     def __init__(
         self,
         device: TuyaDevice,
         device_manager: TuyaDeviceManager,
-        description: ButtonEntityDescription,
     ) -> None:
-        """Init Tuya button."""
+        """Init Tuya Camera."""
         super().__init__(device, device_manager)
-        self.entity_description = description
-        self._attr_unique_id = f"{super().unique_id}{description.key}"
+        CameraEntity.__init__(self)
+        self._attr_model = device.product_name
 
-    def press(self) -> None:
-        """Press the button."""
-        self._send_command([{"code": self.entity_description.key, "value": True}])
+    @property
+    def is_recording(self) -> bool:
+        """Return true if the device is recording."""
+        return self.device.status.get(DPCode.RECORD_SWITCH, False)
+
+    @property
+    def motion_detection_enabled(self) -> bool:
+        """Return the camera motion detection status."""
+        return self.device.status.get(DPCode.MOTION_SWITCH, False)
+
+    async def stream_source(self) -> str | None:
+        """Return the source of the stream."""
+        return await self.hass.async_add_executor_job(
+            self.device_manager.get_device_stream_allocate,
+            self.device.id,
+            "rtsp",
+        )
+
+    async def async_camera_image(
+        self, width: int | None = None, height: int | None = None
+    ) -> bytes | None:
+        """Return a still image response from the camera."""
+        stream_source = await self.stream_source()
+        if not stream_source:
+            return None
+        return await ffmpeg.async_get_image(
+            self.hass,
+            stream_source,
+            width=width,
+            height=height,
+        )
+
+    def enable_motion_detection(self) -> None:
+        """Enable motion detection in the camera."""
+        self._send_command([{"code": DPCode.MOTION_SWITCH, "value": True}])
+
+    def disable_motion_detection(self) -> None:
+        """Disable motion detection in camera."""
+        self._send_command([{"code": DPCode.MOTION_SWITCH, "value": False}])
