@@ -18,6 +18,28 @@ from .const import DOMAIN, TUYA_DISCOVERY_NEW, DPCode, DPType
 # default instructions set of each category end up being a select.
 # https://developer.tuya.com/en/docs/iot/standarddescription?id=K9i5ql6waswzq
 SELECTS: dict[str, tuple[SelectEntityDescription, ...]] = {
+    # Electric Blanket
+    # https://developer.tuya.com/en/docs/iot/categorydr?id=Kaiuz22dyc66p
+    "dr": (
+        SelectEntityDescription(
+            key=DPCode.LEVEL,
+            name="Heat Level (default)",
+            icon="mdi:heat-wave",
+            translation_key="blanket_level",
+        ),
+        SelectEntityDescription(
+            key=DPCode.LEVEL_1,
+            name="Heat Level",
+            icon="mdi:heat-wave",
+            translation_key="blanket_level",
+        ),
+        SelectEntityDescription(
+            key=DPCode.LEVEL_2,
+            name="Heat Level (Side)",
+            icon="mdi:heat-wave",
+            translation_key="blanket_level",
+        ),
+    ),
     # Multi-functional Sensor
     # https://developer.tuya.com/en/docs/iot/categorydgnbj?id=Kaiuz3yorvzg3
     "dgnbj": (
