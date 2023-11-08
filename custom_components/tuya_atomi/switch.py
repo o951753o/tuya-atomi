@@ -52,7 +52,7 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
         ),
         SwitchEntityDescription(
             key=DPCode.PREHEAT_1,
-            translation_keye="Preheat",
+            translation_key="Preheat",
             icon="mdi:heating-coil",
             device_class=SwitchDeviceClass.SWITCH,
         ),
