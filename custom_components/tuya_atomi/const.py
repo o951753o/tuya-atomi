@@ -3,11 +3,11 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from enum import StrEnum
 import logging
 
 from tuya_iot import TuyaCloudOpenAPIEndpoint
 
-from homeassistant.backports.enum import StrEnum
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
@@ -28,7 +28,7 @@ from homeassistant.const import (
     UnitOfVolume,
 )
 
-DOMAIN = "tuya_atomi"
+DOMAIN = "tuya"
 LOGGER = logging.getLogger(__package__)
 
 CONF_AUTH_TYPE = "auth_type"
@@ -173,6 +173,7 @@ class DPCode(StrEnum):
     CUR_VOLTAGE = "cur_voltage"  # Actual voltage
     DECIBEL_SENSITIVITY = "decibel_sensitivity"
     DECIBEL_SWITCH = "decibel_switch"
+    DEHUMIDITY_SET_ENUM = "dehumidify_set_enum"
     DEHUMIDITY_SET_VALUE = "dehumidify_set_value"
     DISINFECTION = "disinfection"
     DO_NOT_DISTURB = "do_not_disturb"
@@ -209,6 +210,7 @@ class DPCode(StrEnum):
     HUMIDIFIER = "humidifier"  # Humidification
     HUMIDITY = "humidity"  # Humidity
     HUMIDITY_CURRENT = "humidity_current"  # Current humidity
+    HUMIDITY_INDOOR = "humidity_indoor"  # Indoor humidity
     HUMIDITY_SET = "humidity_set"  # Humidity setting
     HUMIDITY_VALUE = "humidity_value"  # Humidity
     IPC_WORK_MODE = "ipc_work_mode"
@@ -216,8 +218,6 @@ class DPCode(StrEnum):
     LED_TYPE_2 = "led_type_2"
     LED_TYPE_3 = "led_type_3"
     LEVEL = "level"
-    LEVEL_1 = "level_1"
-    LEVEL_2 = "level_2"
     LEVEL_CURRENT = "level_current"
     LIGHT = "light"  # Light
     LIGHT_MODE = "light_mode"
@@ -256,9 +256,6 @@ class DPCode(StrEnum):
     POWDER_SET = "powder_set"  # Powder
     POWER = "power"
     POWER_GO = "power_go"
-    PREHEAT = "preheat"
-    PREHEAT_1 = "preheat_1"
-    PREHEAT_2 = "preheat_2"
     PRESENCE_STATE = "presence_state"
     PRESSURE_STATE = "pressure_state"
     PRESSURE_VALUE = "pressure_value"
@@ -332,9 +329,10 @@ class DPCode(StrEnum):
     TEMP_BOILING_F = "temp_boiling_f"
     TEMP_CONTROLLER = "temp_controller"
     TEMP_CURRENT = "temp_current"  # Current temperature in °C
-    TEMP_CURRENT_F = "temp_current"  # Current temperature in °F
+    TEMP_CURRENT_F = "temp_current_f"  # Current temperature in °F
+    TEMP_INDOOR = "temp_indoor"  # Indoor temperature in °C
     TEMP_SET = "temp_set"  # Set the temperature in °C
-    TEMP_SET_F = "temp_set"  # Set the temperature in °F
+    TEMP_SET_F = "temp_set_f"  # Set the temperature in °F
     TEMP_UNIT_CONVERT = "temp_unit_convert"  # Temperature unit switching
     TEMP_VALUE = "temp_value"  # Color temperature
     TEMP_VALUE_V2 = "temp_value_v2"
@@ -348,7 +346,7 @@ class DPCode(StrEnum):
     TOTAL_PM = "total_pm"
     TVOC = "tvoc"
     UPPER_TEMP = "upper_temp"
-    UPPER_TEMP_F = "upper_temp"
+    UPPER_TEMP_F = "upper_temp_f"
     UV = "uv"  # UV sterilization
     VA_BATTERY = "va_battery"
     VA_HUMIDITY = "va_humidity"
@@ -549,7 +547,7 @@ UNITS = (
     ),
     UnitOfMeasurement(
         unit=UnitOfTemperature.FAHRENHEIT,
-        aliases={"°f", "f", "fahrenheit", "°F"},
+        aliases={"°f", "f", "fahrenheit"},
         device_classes={SensorDeviceClass.TEMPERATURE},
     ),
     UnitOfMeasurement(
