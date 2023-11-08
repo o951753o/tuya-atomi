@@ -31,36 +31,30 @@ SWITCHES: dict[str, tuple[SwitchEntityDescription, ...]] = {
             key=DPCode.SWITCH,
             translation_key="Power (default)",
             icon="mdi:power",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
         SwitchEntityDescription(
             key=DPCode.SWITCH_1,
             icon="mdi:power",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
         SwitchEntityDescription(
             key=DPCode.SWITCH_2,
             translation_key="Power (side)",
             icon="mdi:power",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
         SwitchEntityDescription(
             key=DPCode.PREHEAT,
             translation_key="Preheat (default)",
             icon="mdi:heating-coil",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
         SwitchEntityDescription(
             key=DPCode.PREHEAT_1,
             translation_key="Preheat",
             icon="mdi:heating-coil",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
         SwitchEntityDescription(
             key=DPCode.PREHEAT_2,
             translation_key="Preheat (side)",
             icon="mdi:heating-coil",
-            device_class=SwitchDeviceClass.SWITCH,
         ),
     ),
     # Smart Kettle
